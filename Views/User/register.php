@@ -88,13 +88,26 @@
                 $hashPass = password_hash($password, PASSWORD_BCRYPT, ["cost" => $cost]);
                 $end = microtime(true);
             } while (($end - $start) < $timeTarget);
-            $sql = "INSERT INTO userdetails(u_name,u_email,u_password) VALUES ('" . $userName . "','" . $email . "','" . $hashPass . "')";
-            $retval = mysqli_query($conn, $sql);
-            if (!$retval) {
+            $query = "SELECT * FROM userdetails WHERE u_email='$email'";
+            $return = mysqli_query($conn, $query);
+            if (!$return)
                 die("<script>alert('Something went wrong!!!')</script>");
-            } else {
-                echo "<script>alert('Account created successfully')</script>";
-                header('Location:index.php');
+            else {
+                $row = mysqli_fetch_array($return);
+                if ($row) {
+                    echo "<script>console.log('Email already registerd')</script>";
+                    echo "<script>alert('Email already registerd')</script>";
+                    
+                } else {
+                    $sql = "INSERT INTO userdetails(u_name,u_email,u_password) VALUES ('" . $userName . "','" . $email . "','" . $hashPass . "')";
+                    $retval = mysqli_query($conn, $sql);
+                    if (!$retval) {
+                        die("<script>alert('Something went wrong!!!')</script>");
+                    } else {
+                        echo "<script>alert('Account created successfully')</script>";
+                        header('Location:signin.php');
+                    }
+                }
             }
         }
     }

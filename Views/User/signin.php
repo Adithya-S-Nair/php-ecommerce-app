@@ -75,24 +75,28 @@ if (isset($_SESSION['user_id'])) {
     $sql = "SELECT * FROM userdetails WHERE u_email='$email'";
     $retval = mysqli_query($conn, $sql);
     if (!$retval) {
-      die("<script>alert('Invalid Credentials')</script>");
+      die("<script>alert('Something went wrong')</script>");
     } else {
       $row = mysqli_fetch_array($retval);
       if ($row) {
         $db_uid = $row['u_id'];
         $db_uname = $row['u_name'];
-        $db_email = $row['u_email'];
+        $isBlock = $row['isBlock'];
         $db_pwrd = $row['u_password'];
-        if (($email == $db_email) and (password_verify($password, $db_pwrd))) {
-          $_SESSION['user_id'] = $db_uid;
-          $_SESSION['user_name'] = $db_uname;
-          if (isset($_POST['remember'])) {
-            setcookie("PQIx5JKXI1", $db_uid, time() + (86400 * 30));
-            setcookie("68iXvUSHe7", $db_uname, time() + (86400 * 30));
+        if ($isBlock == 0) {
+          if ((password_verify($password, $db_pwrd))) {
+            $_SESSION['user_id'] = $db_uid;
+            $_SESSION['user_name'] = $db_uname;
+            if (isset($_POST['remember'])) {
+              setcookie("PQIx5JKXI1", $db_uid, time() + (86400 * 30));
+              setcookie("68iXvUSHe7", $db_uname, time() + (86400 * 30));
+            }
+            header("Location:index.php");
+          } else {
+            echo "<script>alert('Invalid Credentials')</script>";
           }
-          header("Location:index.php");
         } else {
-          echo "<script>alert('Invalid Credentials')</script>";
+          echo "<script>alert('User blocked by Admin')</script>";
         }
       } else {
         echo "<script>alert('Invalid Credentials')</script>";

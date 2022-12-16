@@ -38,11 +38,9 @@ $userId = $_SESSION['user_id'];
                                             $i = 0;
                                             $cartId = array();
                                             $total = array();
-                                            $productIds = array();
                                             while ($row = mysqli_fetch_array($retval)) {
                                                 $cartId[$i] = $row['cart_id'];
                                                 $productId = $row['product_id'];
-                                                $productIds[$i] = $row['product_id'];
                                                 $qty = $row['qty'];
                                                 $total[$i] = $row['total_prize'];
                                                 $sql2 = "SELECT * FROM product WHERE product_id=$productId";
@@ -54,14 +52,14 @@ $userId = $_SESSION['user_id'];
                                                     if (!$productRow) {
                                                         echo '<h1 class="text-center">Cart is Empty<h1>';
                                                         die();
-                                                    } else {
+                                                    } else { 
                                                         $productName = $productRow['product_name'];
                                                         $productBrand = $productRow['product_brand'];
                                                         $productCategory = $productRow['product_category'];
                                                         $productPrize = $productRow['product_prize'];
                                                     }
                                                 }
-                                                echo '<div class="row mb-4 d-flex justify-content-between align-items-center ' . $productIds[$i] . '" id="productIds_' . $i . '">
+                                                echo '<div class="row mb-4 d-flex justify-content-between align-items-center">
                                                         <div class="col-md-2 col-lg-2 col-xl-2">
                                                             <img src="" class="img-fluid rounded-3" alt="">
                                                         </div>
@@ -117,12 +115,12 @@ $userId = $_SESSION['user_id'];
                                             <input type="text" class="form-control" id="payment_addr" />
                                         </div>
                                         <hr class="my-4">
-                                        <?php
+                                        <?php 
                                         echo '<div class="d-flex justify-content-between mb-5">
                                             <h5 class="text-uppercase">Total price</h5>
                                             <h5>&#8377;<span id="total_field">' . $totPrize . '</span></h5>
                                         </div>
-                                        <button type="button" class="btn btn-dark btn-block btn-lg" onclick="placeOrder(' . count($productIds) . ')" data-mdb-ripple-color="dark">Place Order</button>';
+                                        <button type="button" class="btn btn-dark btn-block btn-lg" onclick="placeOrder(' . $productRow[0] . ')" data-mdb-ripple-color="dark">Place Order</button>';
                                         ?>
                                     </div>
                                 </div>
@@ -175,13 +173,8 @@ $userId = $_SESSION['user_id'];
             });
         }
 
-        function placeOrder(length) {
-            var ids = new Array();
-            for (i = 0; i < length; i++) {
-                ids[i] = document.getElementById('productIds_' + i).classList[5];
-            }
-            var jsonString = JSON.stringify(ids);
-            // console.log(jsonString+"**"+ids);
+        function placeOrder(products) {
+            console.log(products);
             var finalPrize = document.getElementById('total_field').innerHTML;
             var paymentMethod = document.getElementById('payment_method').value;
             var deliveryAddr = document.getElementById('payment_addr').value;
@@ -193,9 +186,7 @@ $userId = $_SESSION['user_id'];
                     finalPrize,
                     paymentMethod,
                     deliveryAddr,
-                    date,
-                    data: jsonString,
-                    length
+                    date
                 },
                 success: () => {
                     var modal = document.getElementById("modal");

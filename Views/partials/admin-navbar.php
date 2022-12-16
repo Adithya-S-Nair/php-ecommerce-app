@@ -10,7 +10,7 @@
           <a class="nav-link active" aria-current="page" href="#">Products</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">All Users</a>
+          <a class="nav-link" href="../Admin/all-users.php">All Users</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="#">All Orders</a>

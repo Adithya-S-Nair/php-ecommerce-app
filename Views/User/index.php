@@ -46,7 +46,7 @@ include "../../utils/userAuth.php";
                 <div class="row">
                   <div class="d-flex justify-content-between">
                     <a class="mt-2" href="#">Wishlist</a>
-                    <a class="btn btn-primary" onclick="addCart(' . $productId . ')">Add to cart</a>
+                    <a class="btn btn-primary" onclick="addCart(' . $productId . ',' . $productPrize . ')">Add to cart</a>
                   </div>
                 </div>
               </div>
@@ -60,7 +60,7 @@ include "../../utils/userAuth.php";
   </section>
   <?php include "../partials/footer.php" ?>
   <script>
-    function addCart(proId) {
+    function addCart(proId,proPrize) {
       $.ajax({
         type: "POST",
         url: '../../utils/addToCart.php',
