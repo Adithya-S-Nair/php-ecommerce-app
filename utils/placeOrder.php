@@ -12,10 +12,12 @@ foreach ($data as $id) {
     $retval = mysqli_query($conn, $sql);
     if (!$retval) {
         die();
-    }else{
+    } else {
+        session_start();
+        $_SESSION['orders'] = true;
         $sql2 = "DELETE FROM cart WHERE user_id=$userId";
-        $ret = mysqli_query($conn,$sql2);
-        if(!$ret)
+        $ret = mysqli_query($conn, $sql2);
+        if (!$ret)
             die();
     }
 }

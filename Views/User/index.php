@@ -31,7 +31,7 @@ include "../../utils/userAuth.php";
             $productDesc = $row['product_desc'];
             echo '<div class="col-md-6 col-lg-3 mb-4 mb-lg-0">
             <div class="card">
-              <img src="" class="card-img-top" alt="Laptop" />
+              <img src="../../public/Product-images/'.$productId.'" class="card-img-top" alt="Laptop" />
               <div class="card-body">
                 <div class="d-flex justify-content-between">
                   <p class="small"><a href="#!" class="text-muted">' . $productCategory . '</a></p>

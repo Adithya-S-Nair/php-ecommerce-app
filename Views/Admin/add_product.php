@@ -10,7 +10,7 @@ include "../../utils/adminAuth.php";
 <body>
     <section class="container mt-5">
         <p class="h3 text-center">Add Product</p>
-        <form class="container mt-5" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST">
+        <form enctype="multipart/form-data" class="container mt-5" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST">
             <!-- 2 column grid layout with text inputs for the first and last names -->
             <div class="row mb-5">
                 <div class="col">
@@ -45,7 +45,7 @@ include "../../utils/adminAuth.php";
             <!-- File input -->
             <div class="mb-5">
                 <label class="form-label" for="customFile">Product Image</label>
-                <input type="file" class="form-control" id="customFile" name="product-image" required />
+                <input type="file" class="form-control" id="customFile" name="image" required />
             </div>
 
             <!-- Message input -->
@@ -66,14 +66,27 @@ include "../../utils/adminAuth.php";
         $productPrize = $_POST['prize'];
         $productCategory = $_POST['category'];
         $productBrand = $_POST['company-name'];
-        $productImage = $_POST['product-image'];
         $productDesc = $_POST['product-desc'];
+        $file_name = $_FILES['image']['name'];
+        $file_size = $_FILES['image']['size'];
+        $file_tmp = $_FILES['image']['tmp_name'];
+        $file_type = $_FILES['image']['type'];
+
         $sql = "INSERT INTO product(product_name,product_prize,product_category,product_brand,product_desc) VALUES ('$productName','$productPrize','$productCategory','$productBrand','$productDesc')";
-        echo "$sql";
         $retval = mysqli_query($conn, $sql);
         if (!$retval) {
             die("<script>alert('Something went wrong!!!')</script>");
         } else {
+            $fileName = mysqli_insert_id($conn);
+            // Validate the file type
+            $allowed_types = array('image/jpeg', 'image/png');
+            if (in_array($file_type, $allowed_types)) {
+                // Move the uploaded file to the desired location
+                if ($file_type == 'image/jpeg')
+                    move_uploaded_file($file_tmp, '../../public/Product-images/' . $fileName . '.jpeg');
+                if ($file_type == 'image/png')
+                    move_uploaded_file($file_tmp, '../../public/Product-images/' . $fileName . '.png');
+            }
             echo "<script>alert('Product added successfully.')</script>";
             header('location:index.php');
         }

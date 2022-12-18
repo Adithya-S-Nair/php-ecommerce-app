@@ -16,6 +16,8 @@ if (!$retval) {
     } else {
         $cartId = $row['cart_id'];
         $qty = $row['qty'] + $count;
+        if ($qty == 0)
+            $qty = 1;
         $total = $prize * $qty;
         $sql2 = "UPDATE cart SET qty=$qty,total_prize=$total WHERE product_id=$proId AND user_id=$userId";
         $ret = mysqli_query($conn, $sql2);

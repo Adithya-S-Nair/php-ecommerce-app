@@ -38,7 +38,7 @@ include "../../utils/adminAuth.php";
                                 <div class="d-flex align-items-center">
                                     <img src="https://mdbootstrap.com/img/new/avatars/8.jpg" alt="" style="width: 45px; height: 45px" class="rounded-circle" />
                                     <div class="ms-3">
-                                        <p class="fw-bold mb-1">' . $userName . '</p>
+                                        <p class="fw-bold mb-1" name="userName" id="' . $userName . '">' . $userName . '</p>
                                         <p class="text-muted mb-0">' . $userEmail . '</p>
                                     </div>
                                 </div>
@@ -47,8 +47,8 @@ include "../../utils/adminAuth.php";
                                 <span class="badge badge-success rounded-pill d-inline">Active</span>
                             </td>
                             <td class="text-center">
-                                <button class="btn btn-danger" onclick="handleBlock(0,' . $userId . ')">Block</button>
-                                <button class="btn btn-primary" onclick="handleAdmin('.$userId.')">Make Admin</button>
+                                <button class="btn btn-danger" onclick="handleBlock(0,' . $userId . ',' . $userName . ')">Block</button>
+                                <button class="btn btn-primary" onclick="handleAdmin(' . $userId . ',' . $userName . ')">Make Admin</button>
                             </td>
                         </tr>
                             ';
@@ -59,7 +59,7 @@ include "../../utils/adminAuth.php";
                                 <div class="d-flex align-items-center">
                                     <img src="https://mdbootstrap.com/img/new/avatars/8.jpg" alt="" style="width: 45px; height: 45px" class="rounded-circle" />
                                     <div class="ms-3">
-                                        <p class="fw-bold mb-1">' . $userName . '</p>
+                                        <p class="fw-bold mb-1" name="userName" id="' . $userName . '">' . $userName . '</p>
                                         <p class="text-muted mb-0">' . $userEmail . '</p>
                                     </div>
                                 </div>
@@ -68,8 +68,8 @@ include "../../utils/adminAuth.php";
                                 <span class="badge badge-danger rounded-pill d-inline">Blocked</span>
                             </td>
                             <td class="text-center">
-                                <button class="btn btn-success" onclick="handleBlock(1,' . $userId . ')">Unblock</button>
-                                <button class="btn btn-primary" onclick="handleAdmin('.$userId.')">Make Admin</button>
+                                <button class="btn btn-success" onclick="handleBlock(1,' . $userId . ',' . $userName . ')">Unblock</button>
+                                <button class="btn btn-primary" onclick="handleAdmin(' . $userId . ',' . $userName . ')">Make Admin</button>
                             </td>
                         </tr>
                             ';
@@ -80,30 +80,43 @@ include "../../utils/adminAuth.php";
         </tbody>
     </table>
     <script>
-        function handleBlock(status,uId) {
-            $.ajax({
-                type: "POST",
-                url: "../../utils/handleBlock.php",
-                data: {
-                    uId,
-                    status
-                },
-                success: () => {
-                    window.location.reload();
-                }
-            });
+        function handleBlock(status, uId, uName) {
+            let confirm = false;
+            if (status == 0) {
+                confirm = window.confirm(`Block ${uName.innerHTML} ?`)
+            }else{
+                confirm = window.confirm(`Unblock ${uName.innerHTML} ?`)
+            }
+            if (confirm) {
+                $.ajax({
+                    type: "POST",
+                    url: "../../utils/handleBlock.php",
+                    data: {
+                        uId,
+                        status
+                    },
+                    success: () => {
+                        window.location.reload();
+                    }
+                });
+            }
         }
-        function handleAdmin(uId) {
-            $.ajax({
-                type: "POST",
-                url: "../../utils/handleAdmin.php",
-                data: {
-                    uId
-                },
-                success: () => {
-                    window.location.reload();
-                }
-            });
+
+        function handleAdmin(uId, uName) {
+            let confirm = false;
+            confirm = window.confirm(`Make ${uName.innerHTML} an Admin ?`)
+            if (confirm) {
+                $.ajax({
+                    type: "POST",
+                    url: "../../utils/handleAdmin.php",
+                    data: {
+                        uId
+                    },
+                    success: () => {
+                        window.location.reload();
+                    }
+                });
+            }
         }
     </script>
 </body>

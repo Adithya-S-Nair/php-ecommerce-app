@@ -48,11 +48,10 @@ $userId = $_SESSION['user_id'];
                                                 $sql2 = "SELECT * FROM product WHERE product_id=$productId";
                                                 $ret = mysqli_query($conn, $sql2);
                                                 if (!$ret) {
-                                                    die();
+                                                    echo "<script>window.location.href='cart-empty.php'</script>";
                                                 } else {
                                                     $productRow = mysqli_fetch_array($ret);
                                                     if (!$productRow) {
-                                                        echo '<h1 class="text-center">Cart is Empty<h1>';
                                                         die();
                                                     } else {
                                                         $productName = $productRow['product_name'];
@@ -63,7 +62,7 @@ $userId = $_SESSION['user_id'];
                                                 }
                                                 echo '<div class="row mb-4 d-flex justify-content-between align-items-center ' . $productIds[$i] . '" id="productIds_' . $i . '">
                                                         <div class="col-md-2 col-lg-2 col-xl-2">
-                                                            <img src="" class="img-fluid rounded-3" alt="">
+                                                            <img src="../../public/Product-images/' . $productId . '" class="img-fluid rounded-3" alt="">
                                                         </div>
                                                         <div class="col-md-3 col-lg-3 col-xl-3">
                                                             <h6 class="text-black mb-0">' . $productName . '</h6>
@@ -132,22 +131,6 @@ $userId = $_SESSION['user_id'];
                 </div>
             </div>
         </div>
-        <div class="modal" id="modal" tabindex="-1">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">Success</h5>
-                        <button type="button" class="btn-close" onclick="modalClose()" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <p>Order placed successfully</p>
-                    </div>
-                    <div class="modal-footer">
-                        <a class="btn btn-primary">View Orders</a>
-                    </div>
-                </div>
-            </div>
-        </div>
     </section>
     <script>
         function qtyChange(count, proId, prize) {
@@ -198,10 +181,7 @@ $userId = $_SESSION['user_id'];
                     length
                 },
                 success: () => {
-                    var modal = document.getElementById("modal");
-                    var pageObj = document.getElementById("page");
-                    modal.style.display = 'block';
-                    // pageObj.style.animation = 'blur 250ms forwards';
+                    window.location.href = "order-success.php";
                 }
             });
         }

@@ -10,13 +10,13 @@
     <!-- Collapsible wrapper -->
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <!-- Navbar brand -->
-      <a class="navbar-brand mt-2 mt-lg-0" href="#">
+      <a class="navbar-brand mt-2 mt-lg-0" href="../User/index.php">
         <span class="text-primary">Shopping</span>Cart
       </a>
       <!-- Left links -->
       <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
         <li class="nav-item p-1">
-          <a class="nav-link" href="#">Oders</a>
+          <a class="nav-link" href="../User/orders.php">Oders</a>
         </li>
         <li class="nav-item p-1">
           <a class="nav-link" href="#">Wishlist</a>
