@@ -5,7 +5,7 @@ $proId = $_POST['proId'];
 $count = $_POST['count'];
 $prize = $_POST['prize'];
 include "../database/connection.php";
-$sql = "SELECT * FROM cart WHERE product_id=$proId";
+$sql = "SELECT * FROM cart WHERE product_id=$proId AND user_id=$userId";
 $retval = mysqli_query($conn, $sql);
 if (!$retval) {
     die();

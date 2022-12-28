@@ -39,8 +39,8 @@ if (!$retval) {
 
 <body>
     <section class="container mt-5">
-        <p class="h3 text-center">Add Product</p>
-        <form class="container mt-5" id="myForm">
+        <p class="h3 text-center">Edit Product</p>
+        <form enctype="multipart/form-data" class="container mt-5" id="myForm" action="<?php echo $_SERVER["PHP_SELF"] . '?proId=' . $productId; ?>" method="POST">
             <!-- 2 column grid layout with text inputs for the first and last names -->
             <div class="row mb-5">
                 <div class="col">
@@ -94,7 +94,7 @@ if (!$retval) {
                 <!-- File input -->
                 <div class="mt-5">
                     <label class="form-label" for="customFile">Product Image</label>
-                    <input value="<?php echo "$productName" ?>" type="file" class="form-control" id="customFile" name="product-image" readonly />
+                    <input type="file" class="form-control" id="customFile" name="image" />
                 </div>
 
                 <!-- Message input -->
@@ -113,54 +113,55 @@ if (!$retval) {
                 </div>
         </form>
     </section>
-    <script>
-        // Get the current URL  (From open ai chat bot)
-        const currentUrl = new URL(window.location.href);
-
-        // Get the value of a specific parameter
-        const paramValue = currentUrl.searchParams.get('paramName');
-
-        // Get all the parameters as an iterable object
-
-        // The URLSearchParams object allows you to easily get the value of a specific URL parameter, or iterate over all the parameters in the URL.
-
-        // Here's an example of how to iterate over all the parameters:
-        const params = currentUrl.searchParams;
-        for (const [key, value] of params) {
-            proId = value;
+    <?php
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        $prodName = $_POST['product-name'];
+        $prodPrize = $_POST['prize'];
+        $prodCategory = $_POST['category'];
+        $prodBrand = $_POST['company-name'];
+        $prodDesc = $_POST['product-desc'];
+        $file_name = $_FILES['image']['name'];
+        $file_size = $_FILES['image']['size'];
+        $file_tmp = $_FILES['image']['tmp_name'];
+        $file_type = $_FILES['image']['type'];
+        $sql2 = "UPDATE product SET product_name='$prodName',product_prize='$prodPrize',product_category='$prodCategory',product_brand='$prodBrand',product_desc='$prodDesc' WHERE product_id=$productId";
+        $ret = mysqli_query($conn, $sql2);
+        if (!$ret) {
+            die("<script>alert('Something went wrong!!!')</script>");
+        } else {
+            if ($file_name && $file_size && $file_tmp && $file_type) {
+                // Validate the file type
+                $allowed_types = array('image/jpeg', 'image/png');
+                if (in_array($file_type, $allowed_types)) {
+                    unlink('../../public/Product-images/' . $productId . '.jpeg') || unlink('../../public/Product-images/' . $productId . '.png');    // For deleting existing file
+                    // Move the uploaded file to the desired location
+                    if ($file_type == 'image/jpeg') {
+                        move_uploaded_file($file_tmp, '../../public/Product-images/' . $productId . '.jpeg');
+                    } else {
+                        move_uploaded_file($file_tmp, '../../public/Product-images/' . $productId . '.png');
+                    }
+                } else {
+                    die("<script>alert('File type not allowed')</script>");
+                }
+            }
+            echo "<script>alert('Changes saved successfully.');window.location.href='index'</script>";
         }
-
+    }
+    ?>
+    <script>
         function editField(field) {
             var input = document.getElementById(field);
             var button = document.getElementById('button');
             input.removeAttribute('readonly');
             button.removeAttribute('disabled');
         }
-        
+
         document.getElementById('myForm').addEventListener('submit', (event) => {
             event.preventDefault();
-            var name = document.getElementById('name').value;
-            var prize = document.getElementById('prize').value;
-            var category = document.getElementById('category').value;
-            var brand = document.getElementById('brand').value;
-            var desc = document.getElementById('desc').value;
-            console.log(proId);
-            $.ajax({
-                type: "POST",
-                url: "../../utils/editProduct.php",
-                data: {
-                    proId,
-                    name,
-                    prize,
-                    category,
-                    brand,
-                    desc
-                },
-                success: () => {
-                    alert('Changes saved');
-                    window.location.href = "index.php";
-                }
-            });
+            let confirm = false;
+            confirm = window.confirm("Save Changes?");
+            if (confirm)
+                document.getElementById("myForm").submit();
         });
     </script>
 </body>

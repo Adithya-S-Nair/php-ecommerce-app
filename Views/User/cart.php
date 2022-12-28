@@ -48,7 +48,7 @@ $userId = $_SESSION['user_id'];
                                                 $sql2 = "SELECT * FROM product WHERE product_id=$productId";
                                                 $ret = mysqli_query($conn, $sql2);
                                                 if (!$ret) {
-                                                    echo "<script>window.location.href='cart-empty.php'</script>";
+                                                    die();
                                                 } else {
                                                     $productRow = mysqli_fetch_array($ret);
                                                     if (!$productRow) {
@@ -58,9 +58,8 @@ $userId = $_SESSION['user_id'];
                                                         $productBrand = $productRow['product_brand'];
                                                         $productCategory = $productRow['product_category'];
                                                         $productPrize = $productRow['product_prize'];
-                                                    }
-                                                }
-                                                echo '<div class="row mb-4 d-flex justify-content-between align-items-center ' . $productIds[$i] . '" id="productIds_' . $i . '">
+
+                                                        echo '<div class="row mb-4 d-flex justify-content-between align-items-center ' . $productIds[$i] . '" id="productIds_' . $i . '">
                                                         <div class="col-md-2 col-lg-2 col-xl-2">
                                                             <img src="../../public/Product-images/' . $productId . '" class="img-fluid rounded-3" alt="">
                                                         </div>
@@ -88,11 +87,13 @@ $userId = $_SESSION['user_id'];
                                                         </div>
                                                     </div>
                                                     <hr class="my-4">';
-                                                $i++;
-                                            }
-                                            $totPrize = 0;
-                                            for ($i = 0; $i < count($total); $i++) {
-                                                $totPrize += $total[$i];
+                                                        $i++;
+                                                        $totPrize = 0;
+                                                        for ($i = 0; $i < count($total); $i++) {
+                                                            $totPrize += $total[$i];
+                                                        }
+                                                    }
+                                                }
                                             }
                                         }
                                         ?>
@@ -134,6 +135,7 @@ $userId = $_SESSION['user_id'];
     </section>
     <script>
         function qtyChange(count, proId, prize) {
+            console.log(count);
             $.ajax({
                 type: "POST",
                 url: '../../utils/changeQuantity.php',

@@ -16,8 +16,8 @@ $userId = $_SESSION['user_id'];
                 <tr>
                     <th>Prooduct</th>
                     <th>Category</th>
-                    <th>Status</th>
-                    <th>Actions</th>
+                    <th class="text-center">Status</th>
+                    <th class="text-center">Date</th>
                 </tr>
             </thead>
             <tbody>
@@ -32,20 +32,22 @@ $userId = $_SESSION['user_id'];
                         $productId = $row['product_id'];
                         $orderDate = $row['order_date'];
                         $orderStatus = $row['order_status'];
-                        $sql2 = "SELECT * FROM product WHERE product_id=$productId";
-                        $ret = mysqli_query($conn, $sql2);
-                        if (!$ret) {
-                            die();
-                        } else {
-                            $productRow = mysqli_fetch_array($ret);
-                            if (!$row) {
+                        if ($orderStatus == "placed") {
+                            $orderStatusMsg = "Order Placed";
+                            $sql2 = "SELECT * FROM product WHERE product_id=$productId";
+                            $ret = mysqli_query($conn, $sql2);
+                            if (!$ret) {
                                 die();
                             } else {
-                                $productName = $productRow['product_name'];
-                                $productBrand = $productRow['product_brand'];
-                                $productCat = $productRow['product_category'];
-                                $productDesc = $productRow['product_desc'];
-                                echo '
+                                $productRow = mysqli_fetch_array($ret);
+                                if (!$row) {
+                                    die();
+                                } else {
+                                    $productName = $productRow['product_name'];
+                                    $productBrand = $productRow['product_brand'];
+                                    $productCat = $productRow['product_category'];
+                                    $productDesc = $productRow['product_desc'];
+                                    echo '
                                     <tr>
                                         <td>
                                             <div class="d-flex align-items-center">
@@ -60,14 +62,55 @@ $userId = $_SESSION['user_id'];
                                             <p class="fw-normal mb-1">' . $productCat . '</p>
                                             <p class="text-muted mb-0">' . $productDesc . '</p>
                                         </td>
-                                        <td>
-                                            <span class="badge badge-warning rounded-pill d-inline">Order Placed</span>
+                                        <td class="text-center">
+                                            <span class="badge badge-warning rounded-pill d-inline">' . $orderStatusMsg . '</span>
                                         </td>
                                         <td>
-                                            <a class="btn btn-primary">Details</a>
+                                        <p class="text-muted mb-0 text-center">' . $orderDate . '</p>
                                         </td>
                                     </tr>
                                 ';
+                                }
+                            }
+                        } else {
+                            $orderStatusMsg = "Product Shipped";
+                            $sql2 = "SELECT * FROM product WHERE product_id=$productId";
+                            $ret = mysqli_query($conn, $sql2);
+                            if (!$ret) {
+                                die();
+                            } else {
+                                $productRow = mysqli_fetch_array($ret);
+                                if (!$row) {
+                                    die();
+                                } else {
+                                    $productName = $productRow['product_name'];
+                                    $productBrand = $productRow['product_brand'];
+                                    $productCat = $productRow['product_category'];
+                                    $productDesc = $productRow['product_desc'];
+                                    echo '
+                                    <tr>
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                <img src="../../public/Product-images/' . $productId . '" alt="" style="width: 45px; height: 45px" class="rounded-circle" />
+                                                <div class="ms-3">
+                                                    <p class="fw-bold mb-1">' . $productName . '</p>
+                                                    <p class="text-muted mb-0">' . $productBrand . '</p>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <p class="fw-normal mb-1">' . $productCat . '</p>
+                                            <p class="text-muted mb-0">' . $productDesc . '</p>
+                                        </td>
+                                        <td class="text-center">
+                                            <span class="badge badge-success rounded-pill d-inline">' . $orderStatusMsg . '</span>
+                                        </td>
+                                        <td>
+                                        <p class="text-muted mb-0 text-center">' . $orderDate . '</p>
+                                        </td>
+                                    </tr>
+                                ';
+                                }
                             }
                         }
                     }

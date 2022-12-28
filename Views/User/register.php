@@ -104,8 +104,10 @@
                     if (!$retval) {
                         die("<script>alert('Something went wrong!!!')</script>");
                     } else {
-                        echo "<script>alert('Account created successfully')</script>";
-                        header('Location:signin.php');
+                        $fileName = mysqli_insert_id($conn);
+                        $tmpAvatar = "../../public/Assets/Images/temp-avatar.jpg";
+                        copy($tmpAvatar, '../../public/Profile-images/' . $fileName . '.jpeg');
+                        echo "<script>alert('Account created successfully');window.location.href='signin'</script>";
                     }
                 }
             }

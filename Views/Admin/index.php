@@ -10,7 +10,7 @@ $adminName = $_SESSION['admin_name'];
 
 <body>
     <?php include "../partials/admin-navbar.php"; ?>
-    <section class="container">
+    <section class="container pt-5">
         <div class="row postion-fixed">
             <div class="col-md-6 mt-5">
                 <p class="h6 ms-3">Admin : <?php echo "$adminName"; ?></p>

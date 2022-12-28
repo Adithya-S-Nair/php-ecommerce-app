@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
   <div class="container-fluid">
     <a class="navbar-brand" href="#"><span class="text-primary">Shopping</span>Cart</a>
     <button class="navbar-toggler" type="button" data-mdb-toggle="collapse" data-mdb-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -13,7 +13,7 @@
           <a class="nav-link" href="../Admin/all-users.php">All Users</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">All Orders</a>
+          <a class="nav-link" href="../Admin/all-orders.php">All Orders</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="../Admin/admin-logout.php">Logout</a>
