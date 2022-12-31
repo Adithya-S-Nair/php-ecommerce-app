@@ -19,19 +19,13 @@ foreach ($data as $id) {
         else {
             $qty = $cartRow['qty'];
         }
-    }
-    $sql = "INSERT INTO orders(user_id,product_id,qty,payment_method,delivery_addr,order_date,final_prize) VALUES($userId,$id,$qty,'$paymentMethod','$deliveryAddr','$date',$finalPrize)";
-    $retval = mysqli_query($conn, $sql);
-    if (!$retval) {
-        die();
-    } else {
-        session_start();
-        $_SESSION['orders'] = true;
-        $sql2 = "DELETE FROM cart WHERE user_id=$userId";
-        $ret = mysqli_query($conn, $sql2);
-        if (!$ret)
+        $sql = "INSERT INTO orders(user_id,product_id,qty,payment_method,delivery_addr,order_date,final_prize) VALUES($userId,$id,$qty,'$paymentMethod','$deliveryAddr','$date',$finalPrize)";
+        $retval = mysqli_query($conn, $sql);
+        if (!$retval) {
             die();
-        else {
+        } else {
+            session_start();
+            $_SESSION['orders'] = true;
             $sql3 = "SELECT product_stock FROM product WHERE product_id=$id";
             $return = mysqli_query($conn, $sql3);
             if (!$return)
@@ -50,3 +44,7 @@ foreach ($data as $id) {
         }
     }
 }
+$sql2 = "DELETE FROM cart WHERE user_id=$userId";
+$ret = mysqli_query($conn, $sql2);
+if (!$ret)
+    die();

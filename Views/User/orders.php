@@ -31,28 +31,31 @@ $userId = $_SESSION['user_id'];
                     die();
                 } else {
                     while ($row = mysqli_fetch_array($retval)) {
+                        $orderId = $row['order_id'];
                         $productId = $row['product_id'];
                         $orderDate = $row['order_date'];
                         $orderStatus = $row['order_status'];
                         $orderQty = $row['qty'];
                         $paymentMethod = $row['payment_method'];
                         $deliveryAddr = $row['delivery_addr'];
-                        if ($orderStatus == "placed") {
-                            $orderStatusMsg = "Order Placed";
-                            $sql2 = "SELECT * FROM product WHERE product_id=$productId";
-                            $ret = mysqli_query($conn, $sql2);
-                            if (!$ret) {
+                        $sql2 = "SELECT * FROM product WHERE product_id=$productId";
+                        $ret = mysqli_query($conn, $sql2);
+                        if (!$ret) {
+                            die();
+                        } else {
+                            $productRow = mysqli_fetch_array($ret);
+                            if (!$row) {
                                 die();
                             } else {
-                                $productRow = mysqli_fetch_array($ret);
-                                if (!$row) {
-                                    die();
-                                } else {
-                                    $productName = $productRow['product_name'];
-                                    $productBrand = $productRow['product_brand'];
-                                    $productCat = $productRow['product_category'];
-                                    $productDesc = $productRow['product_desc'];
-                                    echo '
+                                $productName = $productRow['product_name'];
+                                $productBrand = $productRow['product_brand'];
+                                $productCat = $productRow['product_category'];
+                                $productDesc = $productRow['product_desc'];
+                            }
+                        }
+                        if ($orderStatus == "placed") {
+                            $orderStatusMsg = "Order Placed";
+                            echo '
                                     <tr>
                                         <td>
                                             <div class="d-flex align-items-center">
@@ -61,45 +64,32 @@ $userId = $_SESSION['user_id'];
                                                     <p class="fw-bold mb-1">' . $productName . '</p>
                                                     <p class="text-muted mb-0">' . $productBrand . '</p>
                                                     <p class="text-muted mb-0">' . $productCat . '</p>
-                                                    <p class="text-muted mb-0">' . $productDesc . '</p>
                                                 </div>
                                             </div>
                                         </td>
                                         <td class="text-center">    
-                                        <p class="fw-normal mb-1">' . $orderQty . '</p>
+                                            <p class="fw-normal mb-1">' . $orderQty . '</p>
                                         </td>
                                         <td class="text-center">    
-                                        <p class="fw-normal mb-1">' . $paymentMethod . '</p>
+                                             <p class="fw-normal mb-1">' . $paymentMethod . '</p>
                                         </td>
                                         <td class="text-center">    
-                                        <p class="fw-normal mb-1">' . $deliveryAddr . '</p>
+                                            <p class="fw-normal mb-1">' . $deliveryAddr . '</p>
                                         </td>
                                         <td class="text-center">
                                             <span class="badge badge-warning rounded-pill d-inline">' . $orderStatusMsg . '</span>
                                         </td>
                                         <td>
-                                        <p class="text-muted mb-0 text-center">' . $orderDate . '</p>
+                                            <p class="text-muted mb-0 text-center">' . $orderDate . '</p>
+                                        </td>
+                                        <td class="text-center">
+                                            <a class="btn btn-danger" onclick=handleCancelOrder('.$orderId.')><i class="fa-regular fa-x text-light"></i></a>
                                         </td>
                                     </tr>
                                 ';
-                                }
-                            }
-                        } else {
+                        } else if ($orderStatus == "shipped") {
                             $orderStatusMsg = "Product Shipped";
-                            $sql2 = "SELECT * FROM product WHERE product_id=$productId";
-                            $ret = mysqli_query($conn, $sql2);
-                            if (!$ret) {
-                                die();
-                            } else {
-                                $productRow = mysqli_fetch_array($ret);
-                                if (!$row) {
-                                    die();
-                                } else {
-                                    $productName = $productRow['product_name'];
-                                    $productBrand = $productRow['product_brand'];
-                                    $productCat = $productRow['product_category'];
-                                    $productDesc = $productRow['product_desc'];
-                                    echo '
+                            echo '
                                     <tr>
                                         <td>
                                             <div class="d-flex align-items-center">
@@ -108,7 +98,6 @@ $userId = $_SESSION['user_id'];
                                                     <p class="fw-bold mb-1">' . $productName . '</p>
                                                     <p class="text-muted mb-0">' . $productBrand . '</p>
                                                     <p class="text-muted mb-0">' . $productCat . '</p>
-                                                    <p class="text-muted mb-0">' . $productDesc . '</p>
                                                 </div>
                                             </div>
                                         </td>
@@ -125,12 +114,44 @@ $userId = $_SESSION['user_id'];
                                             <span class="badge badge-success rounded-pill d-inline">' . $orderStatusMsg . '</span>
                                         </td>
                                         <td>
-                                        <p class="text-muted mb-0 text-center">' . $orderDate . '</p>
+                                            <p class="text-muted mb-0 text-center">' . $orderDate . '</p>
                                         </td>
                                     </tr>
                                 ';
-                                }
-                            }
+                        } else {
+                            $orderStatusMsg = "Cancelled";
+                            echo '
+                                    <tr>
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                <img src="../../public/Product-images/' . $productId . '" alt="" style="width: 45px; height: 45px" />
+                                                <div class="ms-3">
+                                                    <p class="fw-bold mb-1">' . $productName . '</p>
+                                                    <p class="text-muted mb-0">' . $productBrand . '</p>
+                                                    <p class="text-muted mb-0">' . $productCat . '</p>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="text-center">    
+                                            <p class="fw-normal mb-1">' . $orderQty . '</p>
+                                        </td>
+                                        <td class="text-center">    
+                                            <p class="fw-normal mb-1">' . $paymentMethod . '</p>
+                                        </td>
+                                        <td class="text-center">    
+                                            <p class="fw-normal mb-1">' . $deliveryAddr . '</p>
+                                        </td>
+                                        <td class="text-center">
+                                            <span class="badge badge-danger rounded-pill d-inline">' . $orderStatusMsg . '</span>
+                                        </td>
+                                        <td>
+                                            <p class="text-muted mb-0 text-center">' . $orderDate . '</p>
+                                        </td>
+                                        <td class="text-center">
+                                            <a class="btn btn-danger" href="../../utils/cancelOrder.php?orderId='.$orderId.'&action=delete"><i class="fa-solid fa-trash-can text-light"></i></button>
+                                        </td>
+                                    </tr>
+                                ';
                         }
                     }
                 }
@@ -138,6 +159,14 @@ $userId = $_SESSION['user_id'];
             </tbody>
         </table>
     </div>
+    <script>
+        function handleCancelOrder(orderId){
+            let confirm = false;
+            confirm = window.confirm("Cancel this order?");
+            if(confirm)
+                window.location.href=`../../utils/cancelOrder.php?orderId=${orderId}&action=cancel`;
+        }
+    </script>
 </body>
 
 </html>

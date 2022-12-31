@@ -164,7 +164,6 @@ $userId = $_SESSION['user_id'];
             var ids = new Array();
             for (i = 0; i < length; i++) {
                 ids[i] = document.getElementById('productIds_' + i).classList[5];
-                console.log("qtys");
             }
             var jsonString = JSON.stringify(ids);
             // console.log(jsonString+"**"+ids);
@@ -184,7 +183,7 @@ $userId = $_SESSION['user_id'];
                     length
                 },
                 success: () => {
-                    window.location.href = "order-success.php";
+                    window.location.href = "order-success";
                 }
             });
         }

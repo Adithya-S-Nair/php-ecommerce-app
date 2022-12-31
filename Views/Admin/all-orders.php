@@ -52,7 +52,7 @@ include "../../utils/adminAuth.php";
                                     <tr>
                                         <td>
                                             <div class="d-flex align-items-center">
-                                                <img src="../../public/Product-images/' . $productId . '" alt="" style="width: 45px; height: 45px" class="rounded-circle" />
+                                                <img src="../../public/Product-images/' . $productId . '" alt="" style="width: 45px; height: 45px" />
                                                 <div class="ms-3">
                                                     <p class="fw-bold mb-1">' . $productName . '</p>
                                                     <p class="text-muted mb-0">' . $productBrand . '</p>

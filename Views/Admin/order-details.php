@@ -61,7 +61,7 @@ if ($ret2) {
             echo '<div class="row">
                     <div class="col-lg-6">
                         <h1 class="text-center text-dark">User Details</h1>
-                        <div class="card mb-4">
+                        <div class="card mb-5">
                             <div class="card-body text-center">
                                 <img src="../../public/Profile-images/' . $userId . '" alt="avatar" class="rounded-circle img-fluid" style="width: 150px;">
                                 <h5 class="my-3">' . $userName . '</h5>
@@ -73,7 +73,7 @@ if ($ret2) {
                         <h1 class="text-center text-dark">Product Details</h1>
                         <div class="card mb-4">
                             <div class="card-body text-center">
-                                <img src="../../public/Product-images/' . $productId . '" alt="avatar" class="rounded-circle img-fluid" style="width: 150px;">
+                                <img src="../../public/Product-images/' . $productId . '" alt="avatar" class="img-fluid" style="width: 150px;">
                                 <h5 class="my-3">' . $productName . '</h5>
                                 <p class="text-muted mb-1">' . $productBrand . '</p>
                             </div>

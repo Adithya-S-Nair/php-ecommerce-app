@@ -1,7 +1,3 @@
-<?php
-$userId = $_SESSION['user_id'];
-?>
-
 <!-- Navbar -->
 <nav class="navbar navbar-expand-lg navbar-light bg-white fixed-top">
   <!-- Container wrapper -->
@@ -38,7 +34,7 @@ $userId = $_SESSION['user_id'];
       </a>
 
       <!-- Notifications -->
-      <div class="dropdown">
+      <!-- <div class="dropdown">
         <a class="link-secondary me-3 dropdown-toggle hidden-arrow" href="#" id="navbarDropdownMenuLink" role="button" data-mdb-toggle="dropdown" aria-expanded="false">
           <i class="fas fa-bell"></i>
           <span class="badge rounded-pill badge-notification bg-danger">1</span>
@@ -54,7 +50,7 @@ $userId = $_SESSION['user_id'];
             <a class="dropdown-item" href="#">Something else here</a>
           </li>
         </ul>
-      </div>
+      </div> -->
       <!-- Avatar -->
       <div class="dropdown">
         <a class="dropdown-toggle d-flex align-items-center hidden-arrow" href="#" id="navbarDropdownMenuAvatar" role="button" data-mdb-toggle="dropdown" aria-expanded="false">
@@ -63,9 +59,6 @@ $userId = $_SESSION['user_id'];
         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuAvatar">
           <li>
             <a class="dropdown-item" href="../User/profile">My profile</a>
-          </li>
-          <li>
-            <a class="dropdown-item" href="#">Settings</a>
           </li>
           <li>
             <a class="dropdown-item" href="http://localhost:8099/php-ecommerce-app/Views/User/signout.php">Logout</a>
