@@ -29,7 +29,7 @@ include "../../utils/adminAuth.php";
                     </div>
                 </div>
                 <!-- Text input -->
-                <div class="row mb-5">
+                <div class="row mb-4">
                     <div class="col">
                         <div class="form-outline">
                             <input type="text" id="form6Example3" class="form-control" name="category" required />
@@ -44,10 +44,20 @@ include "../../utils/adminAuth.php";
                         </div>
                     </div>
                 </div>
-                <!-- File input -->
-                <div class="mb-5">
-                    <label class="form-label" for="customFile">Product Image</label>
-                    <input type="file" class="form-control" id="customFile" name="image" required />
+                <div class="row mb-5">
+                    <div class="col">
+                        <div class="form-outline" style="margin-top:33px;">
+                            <input type="text" id="form6Example3" class="form-control" name="stocks" required />
+                            <label class="form-label" for="form6Example3">Stocks</label>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <!-- File input -->
+                        <div class="file-input">
+                            <label class="form-label" for="customFile">Product Image</label>
+                            <input type="file" class="form-control" id="customFile" name="image" required />
+                        </div>
+                    </div>
                 </div>
 
                 <!-- Message input -->
@@ -69,13 +79,14 @@ include "../../utils/adminAuth.php";
         $productPrize = $_POST['prize'];
         $productCategory = $_POST['category'];
         $productBrand = $_POST['company-name'];
+        $productStocks = $_POST['stocks'];
         $productDesc = $_POST['product-desc'];
         $file_name = $_FILES['image']['name'];
         $file_size = $_FILES['image']['size'];
         $file_tmp = $_FILES['image']['tmp_name'];
         $file_type = $_FILES['image']['type'];
 
-        $sql = "INSERT INTO product(product_name,product_prize,product_category,product_brand,product_desc) VALUES ('$productName','$productPrize','$productCategory','$productBrand','$productDesc')";
+        $sql = "INSERT INTO product(product_name,product_prize,product_category,product_brand,product_stock,product_desc) VALUES ('$productName','$productPrize','$productCategory','$productBrand','$productStocks','$productDesc')";
         $retval = mysqli_query($conn, $sql);
         if (!$retval) {
             die("<script>alert('Something went wrong!!!')</script>");
@@ -90,8 +101,12 @@ include "../../utils/adminAuth.php";
                 if ($file_type == 'image/png')
                     move_uploaded_file($file_tmp, '../../public/Product-images/' . $fileName . '.png');
             }
-            echo "<script>alert('Product added successfully.')</script>";
-            header('location:index.php');
+            echo "
+                <script>
+                    alert('Product added successfully.');
+                    window.location.href='index';
+                </script>
+            ";
         }
     }
     ?>

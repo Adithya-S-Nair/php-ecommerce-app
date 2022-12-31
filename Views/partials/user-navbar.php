@@ -23,7 +23,7 @@ $userId = $_SESSION['user_id'];
           <a class="nav-link" href="../User/orders.php">Oders</a>
         </li>
         <li class="nav-item p-1">
-          <a class="nav-link" href="#">Wishlist</a>
+          <a class="nav-link" href="../User/wishlist">Wishlist</a>
         </li>
       </ul>
       <!-- Left links -->
@@ -62,7 +62,7 @@ $userId = $_SESSION['user_id'];
         </a>
         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuAvatar">
           <li>
-            <a class="dropdown-item" href="#">My profile</a>
+            <a class="dropdown-item" href="../User/profile">My profile</a>
           </li>
           <li>
             <a class="dropdown-item" href="#">Settings</a>

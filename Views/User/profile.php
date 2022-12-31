@@ -22,8 +22,20 @@ if ($ret1) {
 <body>
     <?php include "../partials/user-navbar.php"; ?>
     <section class="container pt-5">
-        <p class="h3 text-center pt-5">Profile</p>
-        <form class="container mt-5" id="myForm" enctype="multipart/form-data" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST">
+        <p class="h1 text-center pt-5">Profile</p>
+        <form class="container mt-3" id="myForm" enctype="multipart/form-data" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST">
+            <div class="row text-center mb-2">
+                <div class="col-md-12">
+                    <img src="../../public/Profile-images/<?php echo $userId ?>" class="img-fluid" id="profile-img" style="width: 15%;">
+                </div>
+            </div>
+            <!-- File input -->
+            <div class="row text-center mb-5">
+                <div class="col-md-12">
+                    <input type="file" id="upload-file" name="profile-image" onchange="changeImage(event)" style="display: none;">
+                    <button type="button" class="btn btn-outline-primary" onclick="document.getElementById('upload-file').click()">Choose File</button>
+                </div>
+            </div>
             <!-- 2 column grid layout with text inputs for the first and last names -->
             <div class="row mb-5">
                 <div class="col">
@@ -41,7 +53,7 @@ if ($ret1) {
                     <div class="input-group">
                         <div class="form-outline">
                             <input value="<?php echo "$userEmail" ?>" type="email" id="email" class="form-control" name="user-email" readonly />
-                            <label class="form-label" for="prize">Email</label>
+                            <label class="form-label" for="email">Email</label>
                         </div>
                         <div class="input-group-prepend">
                             <span class="input-group-text" onclick="editField('email')"><i class="fa-solid fa-pen"></i></span>
@@ -54,7 +66,7 @@ if ($ret1) {
                         <div class="input-group">
                             <div class="form-outline">
                                 <input value="<?php echo "$userMobile" ?>" type="text" id="mobile" class="form-control" name="user-mobile" readonly />
-                                <label class="form-label" for="category">Mobile</label>
+                                <label class="form-label" for="mobile">Mobile</label>
                             </div>
                             <div class="input-group-prepend">
                                 <span class="input-group-text" onclick="editField('mobile')"><i class="fa-solid fa-pen"></i></span>
@@ -66,18 +78,13 @@ if ($ret1) {
                         <div class="input-group">
                             <div class="form-outline">
                                 <input value="<?php echo "$userAddr" ?>" type="text" id="addr" class="form-control" name="user-addr" readonly />
-                                <label class="form-label" for="brand">Address</label>
+                                <label class="form-label" for="addr">Address</label>
                             </div>
                             <div class="input-group-prepend">
-                                <span class="input-group-text" onclick="editField('brand')"><i class="fa-solid fa-pen"></i></span>
+                                <span class="input-group-text" onclick="editField('addr')"><i class="fa-solid fa-pen"></i></span>
                             </div>
                         </div>
                     </div>
-                </div>
-                <!-- File input -->
-                <div class="mt-5">
-                    <label class="form-label" for="customFile">Profile Image</label>
-                    <input type="file" class="form-control" id="customFile" name="profile-image" readonly />
                 </div>
                 <!-- Submit button -->
                 <div class="container">
@@ -104,7 +111,10 @@ if ($ret1) {
                 // Validate the file type
                 $allowed_types = array('image/jpeg', 'image/png');
                 if (in_array($file_type, $allowed_types)) {
-                    unlink('../../public/Profile-images/' . $userId . '.jpeg') || unlink('../../public/Profile-images/' . $userId . '.png');// For deleting existing file
+                    if (file_exists('../../public/Profile-images/' . $userId . '.jpeg'))  // For deleting existing file
+                        unlink('../../public/Profile-images/' . $userId . '.jpeg');
+                    else
+                        unlink('../../public/Profile-images/' . $userId . '.png');
                     // Move the uploaded file to the desired location
                     if ($file_type == 'image/jpeg') {
                         move_uploaded_file($file_tmp, '../../public/Profile-images/' . $userId . '.jpeg');
@@ -120,6 +130,13 @@ if ($ret1) {
     }
     ?>
     <script>
+        function changeImage(event) {
+            var img = document.getElementById("profile-img");
+            var button = document.getElementById('button');
+            img.src = URL.createObjectURL(event.target.files[0]);
+            button.removeAttribute('disabled');
+        }
+
         function editField(field) {
             var input = document.getElementById(field);
             var button = document.getElementById('button');

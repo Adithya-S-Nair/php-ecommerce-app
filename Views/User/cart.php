@@ -73,7 +73,7 @@ $userId = $_SESSION['user_id'];
                                                                 <i class="fas fa-minus"></i>
                                                             </button>
             
-                                                            <p class="h6 mt-2 px-1" id="qty_field_' . $cartId[$i] . '">' . $qty . '</p>
+                                                            <p class="h6 mt-2 px-1 qty' . $i . '" id="qty_field_' . $cartId[$i] . '">' . $qty . '</p>
             
                                                             <button class="btn btn-link px-2" onclick="qtyChange(1,' . $productId . ',' . $productPrize . ')">
                                                                 <i class="fas fa-plus"></i>
@@ -164,6 +164,7 @@ $userId = $_SESSION['user_id'];
             var ids = new Array();
             for (i = 0; i < length; i++) {
                 ids[i] = document.getElementById('productIds_' + i).classList[5];
+                console.log("qtys");
             }
             var jsonString = JSON.stringify(ids);
             // console.log(jsonString+"**"+ids);
@@ -186,13 +187,6 @@ $userId = $_SESSION['user_id'];
                     window.location.href = "order-success.php";
                 }
             });
-        }
-
-        function modalClose() {
-            modal.style.display = 'none';
-        }
-        window.onclick = function(event) {
-            modal.style.display = "none";
         }
     </script>
 </body>

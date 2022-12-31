@@ -15,7 +15,9 @@ $userId = $_SESSION['user_id'];
             <thead class="bg-light">
                 <tr>
                     <th>Prooduct</th>
-                    <th>Category</th>
+                    <th class="text-center">Ordered Quantity</th>
+                    <th class="text-center">Payment Method</th>
+                    <th class="text-center">Delivery Adress</th>
                     <th class="text-center">Status</th>
                     <th class="text-center">Date</th>
                 </tr>
@@ -32,6 +34,9 @@ $userId = $_SESSION['user_id'];
                         $productId = $row['product_id'];
                         $orderDate = $row['order_date'];
                         $orderStatus = $row['order_status'];
+                        $orderQty = $row['qty'];
+                        $paymentMethod = $row['payment_method'];
+                        $deliveryAddr = $row['delivery_addr'];
                         if ($orderStatus == "placed") {
                             $orderStatusMsg = "Order Placed";
                             $sql2 = "SELECT * FROM product WHERE product_id=$productId";
@@ -51,16 +56,23 @@ $userId = $_SESSION['user_id'];
                                     <tr>
                                         <td>
                                             <div class="d-flex align-items-center">
-                                                <img src="../../public/Product-images/' . $productId . '" alt="" style="width: 45px; height: 45px" class="rounded-circle" />
+                                                <img src="../../public/Product-images/' . $productId . '" alt="" style="width: 45px; height: 45px"  />
                                                 <div class="ms-3">
                                                     <p class="fw-bold mb-1">' . $productName . '</p>
                                                     <p class="text-muted mb-0">' . $productBrand . '</p>
+                                                    <p class="text-muted mb-0">' . $productCat . '</p>
+                                                    <p class="text-muted mb-0">' . $productDesc . '</p>
                                                 </div>
                                             </div>
                                         </td>
-                                        <td>
-                                            <p class="fw-normal mb-1">' . $productCat . '</p>
-                                            <p class="text-muted mb-0">' . $productDesc . '</p>
+                                        <td class="text-center">    
+                                        <p class="fw-normal mb-1">' . $orderQty . '</p>
+                                        </td>
+                                        <td class="text-center">    
+                                        <p class="fw-normal mb-1">' . $paymentMethod . '</p>
+                                        </td>
+                                        <td class="text-center">    
+                                        <p class="fw-normal mb-1">' . $deliveryAddr . '</p>
                                         </td>
                                         <td class="text-center">
                                             <span class="badge badge-warning rounded-pill d-inline">' . $orderStatusMsg . '</span>
@@ -91,16 +103,23 @@ $userId = $_SESSION['user_id'];
                                     <tr>
                                         <td>
                                             <div class="d-flex align-items-center">
-                                                <img src="../../public/Product-images/' . $productId . '" alt="" style="width: 45px; height: 45px" class="rounded-circle" />
+                                                <img src="../../public/Product-images/' . $productId . '" alt="" style="width: 45px; height: 45px" />
                                                 <div class="ms-3">
                                                     <p class="fw-bold mb-1">' . $productName . '</p>
                                                     <p class="text-muted mb-0">' . $productBrand . '</p>
+                                                    <p class="text-muted mb-0">' . $productCat . '</p>
+                                                    <p class="text-muted mb-0">' . $productDesc . '</p>
                                                 </div>
                                             </div>
                                         </td>
-                                        <td>
-                                            <p class="fw-normal mb-1">' . $productCat . '</p>
-                                            <p class="text-muted mb-0">' . $productDesc . '</p>
+                                        <td class="text-center">    
+                                            <p class="fw-normal mb-1">' . $orderQty . '</p>
+                                        </td>
+                                        <td class="text-center">    
+                                            <p class="fw-normal mb-1">' . $paymentMethod . '</p>
+                                        </td>
+                                        <td class="text-center">    
+                                            <p class="fw-normal mb-1">' . $deliveryAddr . '</p>
                                         </td>
                                         <td class="text-center">
                                             <span class="badge badge-success rounded-pill d-inline">' . $orderStatusMsg . '</span>

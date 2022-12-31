@@ -1,6 +1,5 @@
 <?php
 include "../../utils/adminAuth.php";
-$userId = $_SESSION['user_id'];
 if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on')
     $url = "https://";
 else
@@ -39,8 +38,20 @@ if (!$retval) {
 
 <body>
     <section class="container mt-5">
-        <p class="h3 text-center">Edit Product</p>
+        <p class="h1 text-center">Edit Product</p>
         <form enctype="multipart/form-data" class="container mt-5" id="myForm" action="<?php echo $_SERVER["PHP_SELF"] . '?proId=' . $productId; ?>" method="POST">
+            <div class="row text-center mb-2">
+                <div class="col-md-12">
+                    <img src="../../public/Product-images/<?php echo $productId ?>" class="img-fluid" id="product-img" style="width: 15%;">
+                </div>
+            </div>
+            <!-- File input -->
+            <div class="row text-center mb-5">
+                <div class="col-md-12">
+                    <input type="file" id="upload-file" name="image" onchange="changeImage(event)" style="display: none;">
+                    <button type="button" class="btn btn-outline-primary" onclick="document.getElementById('upload-file').click()">Choose File</button>
+                </div>
+            </div>
             <!-- 2 column grid layout with text inputs for the first and last names -->
             <div class="row mb-5">
                 <div class="col">
@@ -91,12 +102,6 @@ if (!$retval) {
                         </div>
                     </div>
                 </div>
-                <!-- File input -->
-                <div class="mt-5">
-                    <label class="form-label" for="customFile">Product Image</label>
-                    <input type="file" class="form-control" id="customFile" name="image" />
-                </div>
-
                 <!-- Message input -->
                 <div class="input-group  mt-5">
                     <div class="form-outline">
@@ -133,7 +138,10 @@ if (!$retval) {
                 // Validate the file type
                 $allowed_types = array('image/jpeg', 'image/png');
                 if (in_array($file_type, $allowed_types)) {
-                    unlink('../../public/Product-images/' . $productId . '.jpeg') || unlink('../../public/Product-images/' . $productId . '.png');    // For deleting existing file
+                    if (file_exists('../../public/Product-images/' . $productId . '.jpeg'))  // For deleting existing file
+                        unlink('../../public/Product-images/' . $productId . '.jpeg');
+                    else
+                        unlink('../../public/Product-images/' . $productId . '.png');
                     // Move the uploaded file to the desired location
                     if ($file_type == 'image/jpeg') {
                         move_uploaded_file($file_tmp, '../../public/Product-images/' . $productId . '.jpeg');
@@ -149,6 +157,13 @@ if (!$retval) {
     }
     ?>
     <script>
+        function changeImage(event) {
+            var img = document.getElementById("product-img");
+            var button = document.getElementById('button');
+            img.src = URL.createObjectURL(event.target.files[0]);
+            button.removeAttribute('disabled');
+        }
+
         function editField(field) {
             var input = document.getElementById(field);
             var button = document.getElementById('button');
