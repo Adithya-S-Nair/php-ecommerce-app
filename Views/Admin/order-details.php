@@ -44,7 +44,16 @@ if ($ret2) {
         $productBrand = $row2['product_brand'];
         $productCat = $row2['product_category'];
         $productPrize = $row2['product_prize'];
+        $productStock = $row2['product_stock'];
         $productDesc = $row2['product_desc'];
+    }
+}
+$sql3 = "SELECT * FROM orders WHERE product_id=$productId";
+$ret3 = mysqli_query($conn, $sql3);
+if ($ret3) {
+    $row3 = mysqli_fetch_array($ret3);
+    if ($row3) {
+        $productQty = $row3['qty'];
     }
 }
 ?>
@@ -60,20 +69,18 @@ if ($ret2) {
             <?php
             echo '<div class="row">
                     <div class="col-lg-6">
-                        <h1 class="text-center text-dark">User Details</h1>
                         <div class="card mb-5">
                             <div class="card-body text-center">
-                                <img src="../../public/Profile-images/' . $userId . '" alt="avatar" class="rounded-circle img-fluid" style="width: 150px;">
+                                <img src="../../public/Profile-images/' . $userId . '?t=' . time() . '" alt="avatar" class="rounded-circle img-fluid" style="width: 150px;">
                                 <h5 class="my-3">' . $userName . '</h5>
                                 <p class="text-muted mb-1">' . $userType . '</p>
                             </div>
                         </div>
                     </div>
                     <div class="col-lg-6">
-                        <h1 class="text-center text-dark">Product Details</h1>
                         <div class="card mb-4">
                             <div class="card-body text-center">
-                                <img src="../../public/Product-images/' . $productId . '" alt="avatar" class="img-fluid" style="width: 150px;">
+                                <img src="../../public/Product-images/' . $productId . '?t=' . time() . '" alt="avatar" class="img-fluid" style="width: 130px;">
                                 <h5 class="my-3">' . $productName . '</h5>
                                 <p class="text-muted mb-1">' . $productBrand . '</p>
                             </div>
@@ -130,7 +137,7 @@ if ($ret2) {
                                         <p class="mb-0">Product Name</p>
                                     </div>
                                     <div class="col-sm-9">
-                                        <p class="text-muted mb-0">' . $productName . '</p>
+                                        <p class="text-muted mb-0">' . $productName . ' , ' . $productCat . '</p>
                                     </div>
                                 </div>
                                 <hr>
@@ -145,10 +152,10 @@ if ($ret2) {
                                 <hr>
                                 <div class="row">
                                     <div class="col-sm-3">
-                                        <p class="mb-0">Category</p>
+                                        <p class="mb-0">Quantity</p>
                                     </div>
                                     <div class="col-sm-9">
-                                        <p class="text-muted mb-0">' . $productCat . '</p>
+                                        <p class="text-muted mb-0">' . $productQty . '/' . $productStock . '</p>
                                     </div>
                                 </div>
                                 <hr>

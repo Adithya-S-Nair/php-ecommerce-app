@@ -83,7 +83,7 @@ $userId = $_SESSION['user_id'];
                                             <p class="text-muted mb-0 text-center">' . $orderDate . '</p>
                                         </td>
                                         <td class="text-center">
-                                            <a class="btn btn-danger" onclick=handleCancelOrder('.$orderId.')><i class="fa-regular fa-x text-light"></i></a>
+                                            <a class="btn btn-danger" onclick=handleCancelOrder(' . $orderId . ')><i class="fa-regular fa-x text-light"></i></a>
                                         </td>
                                     </tr>
                                 ';
@@ -93,7 +93,7 @@ $userId = $_SESSION['user_id'];
                                     <tr>
                                         <td>
                                             <div class="d-flex align-items-center">
-                                                <img src="../../public/Product-images/' . $productId . '" alt="" style="width: 45px; height: 45px" />
+                                                <img src="../../public/Product-images/' . $productId . '?t=' . time() . '" alt="" style="width: 45px; height: 45px" />
                                                 <div class="ms-3">
                                                     <p class="fw-bold mb-1">' . $productName . '</p>
                                                     <p class="text-muted mb-0">' . $productBrand . '</p>
@@ -148,7 +148,7 @@ $userId = $_SESSION['user_id'];
                                             <p class="text-muted mb-0 text-center">' . $orderDate . '</p>
                                         </td>
                                         <td class="text-center">
-                                            <a class="btn btn-danger" href="../../utils/cancelOrder.php?orderId='.$orderId.'&action=delete"><i class="fa-solid fa-trash-can text-light"></i></button>
+                                            <a class="btn btn-danger" href="../../utils/cancelOrder.php?orderId=' . $orderId . '&action=delete"><i class="fa-solid fa-trash-can text-light"></i></button>
                                         </td>
                                     </tr>
                                 ';
@@ -160,11 +160,11 @@ $userId = $_SESSION['user_id'];
         </table>
     </div>
     <script>
-        function handleCancelOrder(orderId){
+        function handleCancelOrder(orderId) {
             let confirm = false;
             confirm = window.confirm("Cancel this order?");
-            if(confirm)
-                window.location.href=`../../utils/cancelOrder.php?orderId=${orderId}&action=cancel`;
+            if (confirm)
+                window.location.href = `../../utils/cancelOrder.php?orderId=${orderId}&action=cancel`;
         }
     </script>
 </body>

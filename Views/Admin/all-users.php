@@ -37,7 +37,7 @@ include "../../utils/adminAuth.php";
                                 <tr>
                                 <td>
                                     <div class="d-flex align-items-center">
-                                        <img src="../../public/Profile-images/'.$userId.'" style="width: 45px; height: 45px" class="rounded-circle" />
+                                        <img src="../../public/Profile-images/' . $userId . '?t=' . time() . '" style="width: 45px; height: 45px" class="rounded-circle" />
                                         <div class="ms-3">
                                             <p class="fw-bold mb-1" name="userName" id="' . $userName . '">' . $userName . '</p>
                                             <p class="text-muted mb-0">' . $userEmail . '</p>
@@ -53,12 +53,12 @@ include "../../utils/adminAuth.php";
                                 </td>
                             </tr>
                                 ';
-                            } else {
-                                echo '
+                        } else {
+                            echo '
                                 <tr>
                                 <td>
                                     <div class="d-flex align-items-center">
-                                        <img src="../../public/Profile-images/'.$userId.'" style="width: 45px; height: 45px" class="rounded-circle" />
+                                        <img src="../../public/Profile-images/' . $userId . '" style="width: 45px; height: 45px" class="rounded-circle" />
                                         <div class="ms-3">
                                             <p class="fw-bold mb-1" name="userName" id="' . $userName . '">' . $userName . '</p>
                                             <p class="text-muted mb-0">' . $userEmail . '</p>

@@ -52,7 +52,7 @@ include "../../utils/adminAuth.php";
                                     <tr>
                                         <td>
                                             <div class="d-flex align-items-center">
-                                                <img src="../../public/Product-images/' . $productId . '" alt="" style="width: 45px; height: 45px" />
+                                                <img src="../../public/Product-images/' . $productId . '?t=' . time() . '" alt="" style="width: 45px; height: 45px" />
                                                 <div class="ms-3">
                                                     <p class="fw-bold mb-1">' . $productName . '</p>
                                                     <p class="text-muted mb-0">' . $productBrand . '</p>
@@ -67,7 +67,7 @@ include "../../utils/adminAuth.php";
                                             <span class="badge badge-warning rounded-pill d-inline">Order Placed</span>
                                         </td>
                                         <td>
-                                            <a class="btn btn-primary" href="order-details?proId=' . $productId . '&userId=' . $userId . '&orderId='.$orderId.'">Details</a>
+                                            <a class="btn btn-primary" href="order-details?proId=' . $productId . '&userId=' . $userId . '&orderId=' . $orderId . '">Details</a>
                                         </td>
                                     </tr>
                                 ';

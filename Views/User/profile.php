@@ -26,7 +26,7 @@ if ($ret1) {
         <form class="container mt-3" id="myForm" enctype="multipart/form-data" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST">
             <div class="row text-center mb-2">
                 <div class="col-md-12">
-                    <img src="../../public/Profile-images/<?php echo $userId ?>" class="img-fluid" id="profile-img" style="width: 15%;">
+                    <img src="../../public/Profile-images/<?php echo $userId ?>?t=<?php echo time() ?>" class="img-fluid" id="profile-img" style="width: 15%;">
                 </div>
             </div>
             <!-- File input -->

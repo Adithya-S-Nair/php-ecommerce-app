@@ -42,7 +42,7 @@ if (!$retval) {
         <form enctype="multipart/form-data" class="container mt-5" id="myForm" action="<?php echo $_SERVER["PHP_SELF"] . '?proId=' . $productId; ?>" method="POST">
             <div class="row text-center mb-2">
                 <div class="col-md-12">
-                    <img src="../../public/Product-images/<?php echo $productId ?>" class="img-fluid" id="product-img" style="width: 15%;">
+                    <img src="../../public/Product-images/<?php echo $productId ?>?t=<?php echo time(); ?>" class="img-fluid" id="product-img" style="width: 15%;">
                 </div>
             </div>
             <!-- File input -->

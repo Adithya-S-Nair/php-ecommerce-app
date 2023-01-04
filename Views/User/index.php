@@ -17,10 +17,7 @@ include "../../utils/userAuth.php";
   $sql3 = "SELECT * FROM CART WHERE user_id=$userId";
   $retval3 = mysqli_query($conn, $sql3);
   if ($retval3) {
-    $cartCount = 0;
-    while ($row = mysqli_fetch_array($retval3)) {
-      $cartCount += 1;
-    }
+    $cartCount = mysqli_num_rows($retval3);
     ($cartCount > 0) ? $cartCount = $cartCount : $cartCount = null;
   }
   $sql2 = "SELECT * FROM wishlist WHERE user_id=$userId";
@@ -32,6 +29,10 @@ include "../../utils/userAuth.php";
     }
     ($wishListCount > 0) ? $wishListCount = $wishListCount : $wishListCount = null;
   }
+  if (file_exists('../../public/Profile-images/' . $userId . '.jpeg'))
+    $fileName = $userId . '.jpeg';
+  else
+    $fileName = $userId . '.png';
   ?>
 
   <!-- Navbar -->
@@ -72,7 +73,7 @@ include "../../utils/userAuth.php";
         <!-- Avatar -->
         <div class="dropdown">
           <a class="dropdown-toggle d-flex align-items-center hidden-arrow" href="#" id="navbarDropdownMenuAvatar" role="button" data-mdb-toggle="dropdown" aria-expanded="false">
-            <?php echo '<img src="../../public/Profile-images/' . $userId . '" class="rounded-circle" height="25" alt="Black and White Portrait of a Man" loading="lazy" />'; ?>
+            <?php echo '<img src="../../public/Profile-images/' . $fileName . '?t=' . time() . '" class="rounded-circle" height="25" alt="Black and White Portrait of a Man" loading="lazy" />'; ?>
           </a>
           <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuAvatar">
             <li>

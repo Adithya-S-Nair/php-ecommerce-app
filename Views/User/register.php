@@ -95,9 +95,7 @@
             else {
                 $row = mysqli_fetch_array($return);
                 if ($row) {
-                    echo "<script>console.log('Email already registerd')</script>";
-                    echo "<script>alert('Email already registerd')</script>";
-                    
+                    echo "<script>alert('Email already registerd')</script>"; 
                 } else {
                     $sql = "INSERT INTO userdetails(u_name,u_email,u_password) VALUES ('" . $userName . "','" . $email . "','" . $hashPass . "')";
                     $retval = mysqli_query($conn, $sql);

@@ -54,14 +54,14 @@
       <!-- Avatar -->
       <div class="dropdown">
         <a class="dropdown-toggle d-flex align-items-center hidden-arrow" href="#" id="navbarDropdownMenuAvatar" role="button" data-mdb-toggle="dropdown" aria-expanded="false">
-          <?php echo '<img src="../../public/Profile-images/' . $userId . '" class="rounded-circle" height="25" alt="Black and White Portrait of a Man" loading="lazy" />'; ?>
+          <?php echo '<img src="../../public/Profile-images/' . $userId . '?t=' . time() . '" class="rounded-circle" height="25" alt="Black and White Portrait of a Man" loading="lazy" />'; ?>
         </a>
         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuAvatar">
           <li>
             <a class="dropdown-item" href="../User/profile">My profile</a>
           </li>
           <li>
-            <a class="dropdown-item" href="http://localhost:8099/php-ecommerce-app/Views/User/signout.php">Logout</a>
+            <a class="dropdown-item" href="../User/signout.php">Logout</a>
           </li>
         </ul>
       </div>

@@ -44,10 +44,14 @@ $adminName = $_SESSION['admin_name'];
                         $productCategory = $row['product_category'];
                         $productBrand = $row['product_brand'];
                         $productDesc = $row['product_desc'];
+                        if (file_exists('../../public/Product-images/' . $productId . '.jpeg'))
+                            $fileName = $productId . '.jpeg';
+                        else
+                            $fileName = $productId . '.png';
                         echo '<tr>
                             <td>
                                 <div class="d-flex align-items-center">
-                                    <img src="../../public/Product-images/'.$productId.'" style="width: 45px; height: 45px" />
+                                    <img src="../../public/Product-images/' . $fileName . '?t=' . time() . '" style="width: 45px; height: 45px" />
                                     <div class="ms-3">
                                         <p class="fw-bold mb-1" id="' . $productId . '">' . $productName . '</p>
                                         <p class="text-muted mb-0">' . $productBrand . '</p>

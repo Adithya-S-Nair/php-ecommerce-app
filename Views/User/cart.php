@@ -13,7 +13,67 @@ $userId = $_SESSION['user_id'];
 <?php include "../partials/head-section.php"; ?>
 
 <body>
-    <?php include "../partials/user-navbar.php" ?>
+    <?php
+    include "../../database/connection.php";
+    $sql3 = "SELECT * FROM wishlist WHERE user_id=$userId";
+    $retval3 = mysqli_query($conn, $sql3);
+    if ($retval3) {
+        $wishlistCount = mysqli_num_rows($retval3);
+        ($wishlistCount > 0) ? $wishlistCount = $wishlistCount : $wishlistCount = null;
+    }
+    ?>
+    <nav class="navbar navbar-expand-lg navbar-light bg-white fixed-top">
+        <!-- Container wrapper -->
+        <div class="container-fluid">
+            <!-- Toggle button -->
+            <button class="navbar-toggler" type="button" data-mdb-toggle="collapse" data-mdb-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <i class="fas fa-bars"></i>
+            </button>
+
+            <!-- Collapsible wrapper -->
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <!-- Navbar brand -->
+                <a class="navbar-brand mt-2 mt-lg-0" href="../User/index.php">
+                    <span class="text-primary">Shopping</span>Cart
+                </a>
+                <!-- Left links -->
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                    <li class="nav-item p-1">
+                        <a class="nav-link" href="../User/orders.php">Oders</a>
+                    </li>
+                    <li class="nav-item p-1">
+                        <a class="nav-link" href="../User/wishlist">Wishlist<span class="badge rounded-pill badge-notification bg-danger" id="cart_count"><?php echo $wishlistCount ?></span></a>
+                    </li>
+                </ul>
+                <!-- Left links -->
+            </div>
+            <!-- Collapsible wrapper -->
+
+            <!-- Right elements -->
+            <div class="d-flex align-items-center">
+                <!-- Icon -->
+                <a class="link-secondary me-3" href="cart.php">
+                    <i class="fas fa-shopping-cart"></i>
+                </a>
+                <!-- Avatar -->
+                <div class="dropdown">
+                    <a class="dropdown-toggle d-flex align-items-center hidden-arrow" href="#" id="navbarDropdownMenuAvatar" role="button" data-mdb-toggle="dropdown" aria-expanded="false">
+                        <?php echo '<img src="../../public/Profile-images/' . $userId . '?t=' . time() . '" class="rounded-circle" height="25" alt="Black and White Portrait of a Man" loading="lazy" />'; ?>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuAvatar">
+                        <li>
+                            <a class="dropdown-item" href="../User/profile">My profile</a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item" href="http://localhost:8099/php-ecommerce-app/Views/User/signout.php">Logout</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <!-- Right elements -->
+        </div>
+        <!-- Container wrapper -->
+    </nav>
     <section class="h-100 h-custom pt-5" style="background-color: #eee;">
         <div class="container py-5 h-100" id="page">
             <div class="row d-flex justify-content-center align-items-center h-100">
@@ -24,44 +84,52 @@ $userId = $_SESSION['user_id'];
                                 <div class="col-lg-8">
                                     <div class="p-5">
                                         <div class="d-flex justify-content-between align-items-center mb-5">
+                                            <?php
+                                            $sql = "SELECT * FROM CART WHERE user_id=$userId";
+                                            $retval = mysqli_query($conn, $sql);
+                                            if (!$retval) {
+                                                die();
+                                            } else {
+                                                $cartCount = mysqli_num_rows($retval);
+                                                if ($cartCount < 1) {
+                                                    $cartCount = null;
+                                                }
+                                            }
+                                            ?>
                                             <h1 class="fw-bold mb-0 text-black">Cart</h1>
-                                            <h6 class="mb-0 text-muted">3 items</h6>
+                                            <h6 class="mb-0 text-muted"><?php echo $cartCount ?> Item</h6>
                                         </div>
                                         <hr class="my-4">
                                         <?php
-                                        include "../../database/connection.php";
-                                        $sql = "SELECT * FROM CART WHERE user_id=$userId";
-                                        $retval = mysqli_query($conn, $sql);
-                                        if (!$retval) {
-                                            die();
-                                        } else {
-                                            $i = 0;
-                                            $cartId = array();
-                                            $total = array();
-                                            $productIds = array();
-                                            while ($row = mysqli_fetch_array($retval)) {
-                                                $cartId[$i] = $row['cart_id'];
-                                                $productId = $row['product_id'];
-                                                $productIds[$i] = $row['product_id'];
-                                                $qty = $row['qty'];
-                                                $total[$i] = $row['total_prize'];
-                                                $sql2 = "SELECT * FROM product WHERE product_id=$productId";
-                                                $ret = mysqli_query($conn, $sql2);
-                                                if (!$ret) {
-                                                    die();
-                                                } else {
-                                                    $productRow = mysqli_fetch_array($ret);
-                                                    if (!$productRow) {
+                                        if ($retval) {
+                                            if ($cartCount) {
+                                                $i = 0;
+                                                $cartId = array();
+                                                $total = array();
+                                                $productIds = array();
+                                                while ($row = mysqli_fetch_array($retval)) {
+                                                    $cartId[$i] = $row['cart_id'];
+                                                    $productId = $row['product_id'];
+                                                    $productIds[$i] = $row['product_id'];
+                                                    $qty = $row['qty'];
+                                                    $total[$i] = $row['total_prize'];
+                                                    $sql2 = "SELECT * FROM product WHERE product_id=$productId";
+                                                    $ret = mysqli_query($conn, $sql2);
+                                                    if (!$ret) {
                                                         die();
                                                     } else {
-                                                        $productName = $productRow['product_name'];
-                                                        $productBrand = $productRow['product_brand'];
-                                                        $productCategory = $productRow['product_category'];
-                                                        $productPrize = $productRow['product_prize'];
+                                                        $productRow = mysqli_fetch_array($ret);
+                                                        if (!$productRow) {
+                                                            die();
+                                                        } else {
+                                                            $productName = $productRow['product_name'];
+                                                            $productBrand = $productRow['product_brand'];
+                                                            $productCategory = $productRow['product_category'];
+                                                            $productPrize = $productRow['product_prize'];
 
-                                                        echo '<div class="row mb-4 d-flex justify-content-between align-items-center ' . $productIds[$i] . '" id="productIds_' . $i . '">
+                                                            echo '<div class="row mb-4 d-flex justify-content-between align-items-center ' . $productIds[$i] . '" id="productIds_' . $i . '">
                                                         <div class="col-md-2 col-lg-2 col-xl-2">
-                                                            <img src="../../public/Product-images/' . $productId . '" class="img-fluid rounded-3" alt="">
+                                                            <img src="../../public/Product-images/' . $productId . '?t=' . time() . '" class="img-fluid rounded-3" alt="">
                                                         </div>
                                                         <div class="col-md-3 col-lg-3 col-xl-3">
                                                             <h6 class="text-black mb-0">' . $productName . '</h6>
@@ -87,13 +155,16 @@ $userId = $_SESSION['user_id'];
                                                         </div>
                                                     </div>
                                                     <hr class="my-4">';
-                                                        $i++;
-                                                        $totPrize = 0;
-                                                        for ($i = 0; $i < count($total); $i++) {
-                                                            $totPrize += $total[$i];
+                                                            $i++;
+                                                            $totPrize = 0;
+                                                            for ($i = 0; $i < count($total); $i++) {
+                                                                $totPrize += $total[$i];
+                                                            }
                                                         }
                                                     }
                                                 }
+                                            } else {
+                                                echo "<script>window.location.href='cart-empty.php'</script>";
                                             }
                                         }
                                         ?>
@@ -104,25 +175,27 @@ $userId = $_SESSION['user_id'];
                                 </div>
                                 <div class="col-lg-4 bg-grey">
                                     <div class="p-5">
-                                        <h3 class="fw-bold mb-5 mt-2 pt-1">Summary</h3>
-                                        <div class="payment-details mb-4">
+                                        <?php
+                                        if ($cartCount > 0) {
+                                            echo '<h3 class="fw-bold mb-5 mt-2 pt-1">Summary</h3>
+                                            <div class="payment-details mb-4">
                                             <label for="payment_method">Payment Method</label>
                                             <select class="form-select" id="payment_method">
                                                 <option>Cash on delivery</option>
                                                 <option>Online Payment</option>
                                             </select>
-                                        </div>
-                                        <div class="payment-details mb-4">
-                                            <label for="payment_method">Delivery Adress</label>
-                                            <input type="text" class="form-control" id="payment_addr" />
-                                        </div>
-                                        <hr class="my-4">
-                                        <?php
-                                        echo '<div class="d-flex justify-content-between mb-5">
-                                            <h5 class="text-uppercase">Total price</h5>
-                                            <h5>&#8377;<span id="total_field">' . $totPrize . '</span></h5>
-                                        </div>
-                                        <button type="button" class="btn btn-dark btn-block btn-lg" onclick="placeOrder(' . count($productIds) . ')" data-mdb-ripple-color="dark">Place Order</button>';
+                                            </div>
+                                            <div class="payment-details mb-4">
+                                                <label for="payment_method">Delivery Adress</label>
+                                                <input type="text" class="form-control" id="payment_addr" />
+                                            </div>
+                                            <hr class="my-4">
+                                            <div class="d-flex justify-content-between mb-5">
+                                                <h5 class="text-uppercase">Total price</h5>
+                                                <h5>&#8377;<span id="total_field">' . $totPrize . '</span></h5>
+                                            </div>
+                                            <button type="button" class="btn btn-dark btn-block btn-lg" onclick="placeOrder(' . count($productIds) . ')" data-mdb-ripple-color="dark">Place Order</button>';
+                                        }
                                         ?>
                                     </div>
                                 </div>
